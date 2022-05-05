@@ -1,21 +1,21 @@
-
 const menuLink = document.querySelectorAll('.menu__link');
-const menuLinkCount = menuLink.length;
-for (let i = 0; i < menuLinkCount; i++) {
-    menuLink[i].onclick = function() {
-    let menu = this.parentElement.querySelector('ul.menu_sub');    
-    menu.className.includes(' menu_active') ? menu.className = menu.className.replace(' menu_active', '') : menu.className += ' menu_active';
-        
-    let activeMenu = document.querySelectorAll('ul.menu_active');
-        
 
+for (let i = 0; i < menuLink.length; i++) {
+    let menu = menuLink[i].closest('.menu__item').querySelector('ul.menu_sub');
+    if (menu) {
+        menuLink[i].addEventListener('click', function (event) {
+            event.preventDefault();
 
-        if (activeMenu.length > 1) {
-            for (let i = 0; i < activeMenu.length; i++) {
-             activeMenu[i].className = activeMenu[i].className.replace(' menu_active', '');
+            const dropMenuActive = document.querySelector('.menu_active');
+
+            if (menu.classList.contains('menu_active')) {
+                menu.classList.remove('menu_active')
+            } else if (dropMenuActive) {
+                dropMenuActive.classList.remove('menu_active');
+                menu.classList.add('menu_active');
+            } else {
+                menu.classList.add('menu_active')
             };
-            menu.className += ' menu_active';
-        }
-        return false
-        };
-    };
+        })
+    }
+}
