@@ -6,8 +6,8 @@ function display(event) {
     
     for (let element of reveal) {
         const viewportHeight = window.innerHeight;
-        const elementTop = element.getBoundingClientRect().top;
-        
+        const elementTop = element.getBoundingClientRect().top; 
+       
         if (elementTop < viewportHeight) {
             element.classList.add('reveal_active');
         } else {
