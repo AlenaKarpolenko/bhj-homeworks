@@ -1,18 +1,17 @@
 
-const hasTooltip = Array.from(document.getElementsByClassName('has-tooltip'));
-let lastElement
-
-function toolTipsActive(e) {
-    e.preventDefault();
-    let tooltipActive = document.getElementsByClassName("tooltip tooltip_active")[0];
-    if (tooltipActive) {
-        tooltipActive.remove();
-    }
-    let tipText = this.title;
-    this.insertAdjacentHTML('afterend', `<div class="tooltip tooltip_active">${tipText}</div>`);
-}
+const hasTooltip = document.getElementsByClassName('has-tooltip');
 
 for (let i = 0; i < hasTooltip.length; i++) {
-    const element = hasTooltip[i];
-    element.addEventListener('click', toolTipsActive);
-}
+    let toAdd = '<div class="tooltip">' + hasTooltip[i].title + '</div>';
+    hasTooltip[i].insertAdjacentHTML('afterend', toAdd);
+};
+let tooltip = document.getElementsByClassName('tooltip');
+
+for (let a = 0; a < hasTooltip.length; a++) {
+    hasTooltip[a].onclick = () => {
+        tooltip[a].style.top = hasTooltip[a].getBoundingClientRect().top + 20 + "px";
+        tooltip[a].style.left = hasTooltip[a].getBoundingClientRect().left + "px";
+        tooltip[a].classList.toggle('tooltip_active');
+        return false;
+    };
+};
