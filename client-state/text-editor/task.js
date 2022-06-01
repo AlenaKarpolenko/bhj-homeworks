@@ -1,12 +1,14 @@
 const editor = document.getElementById('editor');
-const reset = document.querySelector('.reset');
+const clearEditor = document.createElement('button');
 
-editor.value = localStorage.getItem('editor');
-editor.addEventListener('input', () => {
+editor.value = localStorage.editorContent;
+editor.addEventListener('keydown', function () {
   localStorage.setItem('editor', `${editor.value}`);
-});
-
-reset.addEventListener('click', () => {
-  editor.value = '';
-  localStorage.removeItem('editor');
 })
+clearEditor.className = 'clearEditor';
+clearEditor.textContent = 'Очистить';
+clearEditor.addEventListener('click', () => {
+  editor.value = '';
+  localStorage.editorContent = '';
+})
+editor.insertAdjacentElement('afterEnd', clearEditor);

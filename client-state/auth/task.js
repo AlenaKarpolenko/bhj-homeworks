@@ -1,40 +1,31 @@
-const signin = document.getElementById("signin");
-const welcome = document.getElementById("welcome");
-const userId = document.getElementById("user_id");
-const signinBtn = document.getElementById("signin__btn");
-signinBtn.addEventListener("click", getSendForm);
+const signin = document.getElementById('signin');
 signin.classList.add('signin_active');
+const welcomeMsg = document.querySelector('.welcome');
+const idElem = document.getElementById('user_id');
+const form = document.getElementById('signin__form');
 
-function getSendForm(event) {
+form.addEventListener('submit', event => {
     event.preventDefault();
-    const form = document.getElementById('signin__form');
-    const formData = new FormData(form);
+    const data = new FormData(form);
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://netology-slow-rest.herokuapp.com/auth.php');
-    xhr.addEventListener('readystatechange', showData);
-    xhr.send(formData);
-
-    function showData(event) {
+    xhr.open('POST', 'https://netology-slow-rest.herokuapp.com/auth.php');
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             const response = JSON.parse(xhr.responseText);
-            if (response.success) {
-                localStorage.userId = response.user_id;
-                signin.forms.classList.remove('signin_active');
-                welcome.classList.add('welcome_active');
-                userId.innerText = response.user_id;
-
+            //xhr.responseType = 'json';
+            if (response.success === true) {
+                signin.classList.remove('signin_active');
+                const userId = response['user_id'];
+                localStorage.setItem('id', userId);
+                welcomeMsg.classList.add('welcome_active');
+                idElem.textContent = userId;
             } else {
                 alert('Неверный логин/пароль');
             }
+            form.reset()
         }
     }
-}
-function init() {
-    if (localStorage.userId) {
-        signin.classList.remove('signin_active');
-        welcome.classList.add('welcome_active');
-        userId.innerText = localStorage.userId;
-    }
-}
-init();
+    xhr.send(data);
+})
+

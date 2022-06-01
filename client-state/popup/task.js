@@ -1,29 +1,26 @@
-const subscribeModal = document.getElementById("subscribe-modal");
-const modalClose = document.querySelector(".modal__close");
 
-function onload() {
-    console.log(document.cookie);
-    let cookieClose = getCookie("close");
-    console.log(cookieClose);
-    if (!cookieClose) {
-        subscribeModal.classList.add("modal_active");
+
+document.addEventListener('DOMContentLoaded', () => {
+    const subscribeModal = document.getElementById('subscribe-modal');
+    const close = document.querySelector('.modal__close');
+   
+    if (getCookie('modal') !== 'close') {
+        subscribeModal.classList.add('modal_active');
     }
-}
 
-function closeModal() {
-    subscribeModal.classList.remove("modal_active");
-    document.cookie = 'close="true"';
-}
-
-function getCookie(name) {
-    const value = "; " + document.cookie;
-    let parts = value.split("; " + name + "=");
-    if (parts.length === 2) {
-        return parts
+    close.addEventListener('click', () => {
+        subscribeModal.classList.remove('modal_active');
+        document.cookie = 'modal=close';
+    });    
+   
+    function getCookie(name) {
+        const cookie = '; ' + document.cookie;
+        const parts = cookie.split('; ' + name + '=');
+        if (parts.length === 2) {
+            return parts
             .pop()
-            .split(";")
+            .split(';')
             .shift();
+        }
     }
-}
-modalClose.addEventListener('click', closeModal);
-window.onload = onload();
+});
